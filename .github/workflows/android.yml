@@ -21,13 +21,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Android SDK ortamını ayarla
+      - name: Android SDK ortamini ayarla
         run: |
           echo "ANDROID_HOME=$ANDROID_HOME"
-          ls -la $ANDROID_HOME 2>&1 || echo "ANDROID_HOME yok"
-          ls -la /usr/local/lib/android/sdk 2>&1 || echo "/usr/local/lib/android/sdk yok"
 
-      - name: Bozuk gradlew dosyasını kaldır
+      - name: Bozuk gradlew dosyasini kaldir
         run: rm -f gradlew gradlew.bat
 
       - name: Gradle 8.2 kur
@@ -37,19 +35,22 @@ jobs:
           ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
           rm -f /tmp/gradle.zip
 
-      - name: Gradle sürüm kontrolü
+      - name: Gradle surum kontrolu
         run: gradle --version
 
-      - name: Debug APK derle (detayli log)
-        run: gradle :app:assembleDebug --stacktrace --info 2>&1 | tee build.log
+      - name: Debug APK derle
+        run: gradle :app:assembleDebug --stacktrace
 
-      - name: Hata mesajini goster
-        if: failure()
-        run: grep -i "error\|exception\|failed\|what went wrong" build.log | head -30
+      - name: APK dosyasini bul
+        run: |
+          echo "=== Tum APK dosyalari araniyor ==="
+          find . -name "*.apk" -type f 2>/dev/null || echo "APK bulunamadi"
+          APK_PATH=$(find . -name "app-debug.apk" -type f 2>/dev/null | head -1)
+          echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
-      - name: APK artifact olarak yükle
+      - name: APK artifact olarak yukle
         uses: actions/upload-artifact@v4
         with:
           name: custom-car-os-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ env.APK_PATH }}
           retention-days: 7

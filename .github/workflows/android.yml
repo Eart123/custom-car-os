@@ -33,73 +33,15 @@ jobs:
           restore-keys: |
             android-sdk-${{ runner.os }}-
 
-      - name: Gradle 8.2 kur (wrapper oluşturma için)
+      - name: Gradle 8.2 kur
         run: |
           curl -fsSL https://services.gradle.org/distributions/gradle-8.2-bin.zip -o /tmp/gradle.zip
           unzip -q /tmp/gradle.zip -d /opt
           ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
           rm -f /tmp/gradle.zip
 
-      - name: Gradle wrapper script'i oluştur (indirme, konfigüre etmez)
-        run: |
-          # Minimal çalışan gradlew script'i oluştur
-          cat > gradlew << 'EOF'
-          #!/bin/sh
-          GRADLE_VERSION=8.2
-          GRADLE_DIST_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
-          GRADLE_USER_HOME="${GRADLE_USER_HOME:-${HOME}/.gradle}"
-          WRAPPER_DIR="${GRADLE_USER_HOME}/wrapper/dists/gradle-${GRADLE_VERSION}-bin"
-          
-          find_gradle() {
-              local gradle_bin="${WRAPPER_DIR}/gradle-${GRADLE_VERSION}/bin/gradle"
-              if [ ! -f "${gradle_bin}" ]; then
-                  echo "Downloading Gradle ${GRADLE_VERSION}..."
-                  mkdir -p "${WRAPPER_DIR}"
-                  curl -fsSL "${GRADLE_DIST_URL}" -o "${WRAPPER_DIR}/gradle.zip"
-                  unzip -q "${WRAPPER_DIR}/gradle.zip" -d "${WRAPPER_DIR}"
-                  rm -f "${WRAPPER_DIR}/gradle.zip"
-              fi
-              echo "${WRAPPER_DIR}/gradle-${GRADLE_VERSION}/bin/gradle"
-          }
-          
-          GRADLE_BIN=$(find_gradle)
-          exec "${GRADLE_BIN}" "$@"
-          EOF
-          
-          cat > gradlew.bat << 'EOF'
-          @echo off
-          set GRADLE_VERSION=8.2
-          set GRADLE_DIST_URL=https://services.gradle.org/distributions/gradle-%GRADLE_VERSION%-bin.zip
-          set GRADLE_USER_HOME=%USERPROFILE%\.gradle
-          set WRAPPER_DIR=%GRADLE_USER_HOME%\wrapper\dists\gradle-%GRADLE_VERSION%-bin
-          
-          if not exist "%WRAPPER_DIR%\gradle-%GRADLE_VERSION%\bin\gradle.bat" (
-              echo Downloading Gradle %GRADLE_VERSION%...
-              mkdir "%WRAPPER_DIR%" 2>nul
-              curl -fsSL "%GRADLE_DIST_URL%" -o "%WRAPPER_DIR%\gradle.zip"
-              tar -xf "%WRAPPER_DIR%\gradle.zip" -C "%WRAPPER_DIR%"
-              del "%WRAPPER_DIR%\gradle.zip"
-          )
-          
-          "%WRAPPER_DIR%\gradle-%GRADLE_VERSION%\bin\gradle.bat" %*
-          EOF
-          
-          # gradle-wrapper.properties oluştur
-          mkdir -p gradle/wrapper
-          cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
-          distributionBase=GRADLE_USER_HOME
-          distributionPath=wrapper/dists
-          distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
-          zipStoreBase=GRADLE_USER_HOME
-          zipStorePath=wrapper/dists
-          EOF
-          
-          # İzinler
-          sed -i 's/\r$//' gradlew gradlew.bat 2>/dev/null || true
-          chmod +x gradlew
-
       - name: Gradle sürüm kontrol
-        run: ./gradlew --version
+        run: gradle --version
 
       - name: Gradle dependency cache
         uses: actions/cache@v4
@@ -115,7 +57,7 @@ jobs:
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true"
         run: |
-          ./gradlew :app:assembleDebug --stacktrace --no-daemon
+          gradle :app:assembleDebug --stacktrace --no-daemon
 
       - name: APK bul ve artifact yükle
         if: success()

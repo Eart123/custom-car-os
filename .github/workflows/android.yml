@@ -40,17 +40,29 @@ jobs:
           ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
           rm -f /tmp/gradle.zip
 
-      - name: Gradle wrapper doğrula ve düzelt
+      - name: Gradle wrapper indir ve kur (hazır wrapper, konfigüre etmez)
         run: |
-          # Wrapper dosyası bozuksa (repo박dak 4KB'lık dosya) yeniden oluştur
-          if [ ! -f gradlew ] || [ $(wc -c < gradlew) -lt 10000 ]; then
-            echo "Bozuk/eksik gradlew tespit edildi, yeniden oluşturuluyor..."
-            rm -f gradlew gradlew.bat
-            gradle wrapper --gradle-version 8.2 --distribution-type bin
-          fi
+          # Resmi Gradle 8.2 wrapper'ını indir
+          curl -fsSL https://services.gradle.org/distributions/gradle-8.2-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /tmp/gradle-wrapper
+          # Wrapper dosyalarını kopyala
+          cp /tmp/gradle-wrapper/gradle-8.2/bin/gradlew .
+          cp /tmp/gradle-wrapper/gradle-8.2/bin/gradlew.bat .
+          mkdir -p gradle/wrapper
+          cp /tmp/gradle-wrapper/gradle-8.2/lib/gradle-wrapper-*.jar gradle/wrapper/
+          cp /tmp/gradle-wrapper/gradle-8.2/lib/gradle-wrapper-*.jar gradle/wrapper/gradle-wrapper.jar
+          # gradle-wrapper.properties oluştur
+          cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
+          distributionBase=GRADLE_USER_HOME
+          distributionPath=wrapper/dists
+          distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
+          zipStoreBase=GRADLE_USER_HOME
+          zipStorePath=wrapper/dists
+          EOF
           # CRLF temizle + izin
           sed -i 's/\r$//' gradlew gradlew.bat 2>/dev/null || true
           chmod +x gradlew
+          rm -rf /tmp/gradle.zip /tmp/gradle-wrapper
 
       - name: Gradle sürüm kontrol
         run: ./gradlew --version

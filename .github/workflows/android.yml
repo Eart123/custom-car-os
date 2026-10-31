@@ -38,10 +38,15 @@ jobs:
       - name: Gradle surum kontrolu
         run: gradle --version
 
-      - name: Debug APK derle
-        run: gradle :app:assembleDebug --stacktrace
+      - name: Debug APK derle (detayli log)
+        run: gradle :app:assembleDebug --stacktrace --info 2>&1 | tee build.log
+
+      - name: Hata mesajini goster
+        if: failure()
+        run: grep -i -A5 "error\|exception\|failed\|what went wrong\|e: " build.log | head -50
 
       - name: APK dosyasini bul
+        if: success()
         run: |
           echo "=== Tum APK dosyalari araniyor ==="
           find . -name "*.apk" -type f 2>/dev/null || echo "APK bulunamadi"
@@ -49,6 +54,7 @@ jobs:
           echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
       - name: APK artifact olarak yukle
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: custom-car-os-debug-apk

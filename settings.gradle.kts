@@ -5,9 +5,16 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id("org.jetbrains.kotlin.android") version "1.9.22"
-        id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
-        id("org.jetbrains.kotlin.kapt") version "1.9.22"
+        id("org.jetbrains.kotlin.android") version "1.9.24"
+        id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
+        id("org.jetbrains.kotlin.kapt") version "1.9.24"
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id.startsWith("org.jetbrains.kotlin")) {
+                useModule("org.jetbrains.kotlin:${requested.id.name}:1.9.24")
+            }
+        }
     }
 }
 

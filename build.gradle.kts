@@ -11,6 +11,6 @@ allprojects {
     version = "1.0.0"
 }
 
-tasks.register("clean", Delete) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

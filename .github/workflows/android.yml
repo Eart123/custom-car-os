@@ -21,24 +21,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Android SDK komut satırı araçlarını kur
-        run: |
-          ANDROID_HOME=/usr/local/lib/android/sdk
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
-          cd /tmp
-          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-          unzip -o -q commandlinetools-linux-11076708_latest.zip
-          cp -r cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest/
-          rm -rf cmdline-tools commandlinetools-linux-11076708_latest.zip
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-34" "build-tools;34.0.0"
-
       - name: Gradle izni ver
         run: chmod +x gradlew
 
       - name: Debug APK derle
-        env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
         run: ./gradlew :app:assembleDebug
 
       - name: APK artifact olarak yükle

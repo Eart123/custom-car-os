@@ -5,7 +5,6 @@ Privacy-first Android automotive launcher inspired by Vivid Car Launcher and Tes
 ## Araç Modeli
 
 - **Model:** Renault Symbol
-- **Plaka:** 34ABC567
 
 ## Arayüz Tasarımı (Referansla Uyumlu)
 

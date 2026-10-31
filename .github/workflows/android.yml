@@ -5,43 +5,77 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
-      - name: Checkout repository
+      - name: Checkout kod
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: JDK 17 kur (Temurin) + cache
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          distribution: temurin
+          java-version: 17
+          cache: gradle
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Android SDK cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/lib/android/sdk
+            ~/.android
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            android-sdk-${{ runner.os }}-
 
-      - name: Cache Gradle
+      - name: Gradle 8.2 kur
+        run: |
+          curl -fsSL https://services.gradle.org/distributions/gradle-8.2-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
+          rm -f /tmp/gradle.zip
+
+      - name: Gradle sürüm kontrol
+        run: gradle --version
+
+      - name: Gradle dependency cache
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts', '**/libs.versions.toml') }}
+          key: gradle-deps-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', '**/gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            gradle-deps-${{ runner.os }}-
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
+      - name: Debug APK derle
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true"
+        run: |
+          gradle :app:assembleDebug --stacktrace --no-daemon
 
-      - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
+      - name: APK bul ve artifact yükle
+        if: success()
+        run: |
+          APK_PATH=$(find . -name "app-debug.apk" -type f 2>/dev/null | head -1)
+          if [ -z "$APK_PATH" ]; then
+            echo "::error::APK bulunamadı!"
+            find . -name "*.apk" -type f 2>/dev/null
+            exit 1
+          fi
+          echo "APK bulundu: $APK_PATH"
+          echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
-      - name: Upload APK artifact
+      - name: Upload APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: custom-car-os-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ env.APK_PATH }}
           retention-days: 7
+          if-no-files-found: error

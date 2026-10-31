@@ -6,7 +6,7 @@ kotlin = "1.9.22"
 # Compose BOM
 composeBom = "2024.01.00"
 # Compose Compiler
-composeCompiler = "1.5.8"
+composeCompiler = "1.5.11"
 # Hilt
 hilt = "2.50"
 # AndroidX Core
@@ -98,4 +98,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-plugin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

@@ -1,10 +1,3 @@
-buildscript {
-    kotlin {
-        // JVM target compatible with older Android devices
-        jvmToolchain(11)
-    }
-}
-
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
@@ -18,6 +11,6 @@ allprojects {
     version = "1.0.0"
 }
 
-tasks.register("clean", Delete) {
+tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }

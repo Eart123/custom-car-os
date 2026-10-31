@@ -10,53 +10,81 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # GitHub Actions native retry: transient hatalarda 2 kez otomatik tekrar dener
+    retry:
+      max: 2
+      when: failure()
 
     steps:
       - name: Checkout kod
         uses: actions/checkout@v4
 
-      - name: JDK 17 kur (Temurin)
+      - name: JDK 17 kur (Temurin) + cache
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
+          cache: gradle
 
-      - name: Android SDK ortamini ayarla
+      - name: Android SDK cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/local/lib/android/sdk
+            ~/.android
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            android-sdk-${{ runner.os }}-
+
+      - name: Gradle wrapper doğrula ve düzelt
         run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
+          # Wrapper dosyası bozuksa (repo박dak 4KB'lık dosya) yeniden oluştur
+          if [ ! -f gradlew ] || [ $(wc -c < gradlew) -lt 10000 ]; then
+            echo "Bozuk/eksik gradlew tespit edildi, yeniden oluşturuluyor..."
+            rm -f gradlew gradlew.bat
+            gradle wrapper --gradle-version 8.2 --distribution-type bin
+          fi
+          # CRLF temizle + izin
+          sed -i 's/\r$//' gradlew gradlew.bat 2>/dev/null || true
+          chmod +x gradlew
 
-      - name: Bozuk gradlew dosyasini kaldir
-        run: rm -f gradlew gradlew.bat
+      - name: Gradle sürüm kontrol
+        run: ./gradlew --version
 
-      - name: Gradle 8.2 kur
+      - name: Gradle dependency cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-deps-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', '**/gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-deps-${{ runner.os }}-
+
+      - name: Debug APK derle
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true"
         run: |
-          curl -fsSL https://services.gradle.org/distributions/gradle-8.2-bin.zip -o /tmp/gradle.zip
-          unzip -q /tmp/gradle.zip -d /opt
-          ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
-          rm -f /tmp/gradle.zip
+          ./gradlew :app:assembleDebug --stacktrace --no-daemon
 
-      - name: Gradle surum kontrolu
-        run: gradle --version
-
-      - name: Debug APK derle (detayli log)
-        run: gradle :app:assembleDebug --stacktrace --info 2>&1 | tee build.log
-
-      - name: Hata mesajini goster
-        if: failure()
-        run: grep -i -A5 "error\|exception\|failed\|what went wrong\|e: " build.log | head -50
-
-      - name: APK dosyasini bul
+      - name: APK bul ve artifact yükle
         if: success()
         run: |
-          echo "=== Tum APK dosyalari araniyor ==="
-          find . -name "*.apk" -type f 2>/dev/null || echo "APK bulunamadi"
           APK_PATH=$(find . -name "app-debug.apk" -type f 2>/dev/null | head -1)
+          if [ -z "$APK_PATH" ]; then
+            echo "::error::APK bulunamadı!"
+            find . -name "*.apk" -type f 2>/dev/null
+            exit 1
+          fi
+          echo "APK bulundu: $APK_PATH"
           echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
-      - name: APK artifact olarak yukle
+      - name: Upload APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: custom-car-os-debug-apk
           path: ${{ env.APK_PATH }}
           retention-days: 7
+          if-no-files-found: error

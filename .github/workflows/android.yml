@@ -21,46 +21,22 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Gradle wrapper kontrol et
-        run: |
-          echo "=== gradlew var mi? ==="
-          ls -la gradlew 2>&1 || echo "gradlew YOK"
-          echo "=== gradle wrapper klasoru ==="
-          ls -la gradle/wrapper/ 2>&1 || echo "gradle/wrapper YOK"
-          echo "=== gradlew satir sayisi ==="
-          wc -l gradlew 2>&1 || echo "gradlew okunamadi"
-          echo "=== gradlew ilk satir ==="
-          head -1 gradlew 2>&1 || echo "gradlew okunamadi"
+      - name: Bozuk gradlew dosyasını kaldır
+        run: rm -f gradlew gradlew.bat
 
-      - name: Gradle wrapper düzelt (CRLF temizleme + izin)
+      - name: Gradle 8.2 kur
         run: |
-          if [ -f gradlew ]; then
-            sed -i 's/\r$//' gradlew
-            chmod +x gradlew
-          else
-            echo "gradlew dosyasi bulunamadi, Gradle wrapper indirilecek"
-            GRADLE_VERSION=8.2
-            curl -fsSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip
-            unzip -q /tmp/gradle.zip -d /tmp
-            ln -sf /tmp/gradle-${GRADLE_VERSION}/bin/gradle /usr/local/bin/gradle
-            ln -sf /tmp/gradle-${GRADLE_VERSION}/bin/gradlew /usr/local/bin/gradlew
-          fi
+          GRADLE_VERSION=8.2
+          curl -fsSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          ln -sf /opt/gradle-${GRADLE_VERSION}/bin/gradle /usr/local/bin/gradle
+          rm -f /tmp/gradle.zip
 
-      - name: Gradle version kontrol et
-        run: |
-          if [ -f gradlew ]; then
-            bash ./gradlew --version
-          else
-            gradle --version
-          fi
+      - name: Gradle sürüm kontrolü
+        run: gradle --version
 
       - name: Debug APK derle
-        run: |
-          if [ -f gradlew ]; then
-            bash ./gradlew :app:assembleDebug --stacktrace
-          else
-            gradle :app:assembleDebug --stacktrace
-          fi
+        run: gradle :app:assembleDebug --stacktrace
 
       - name: APK artifact olarak yükle
         uses: actions/upload-artifact@v4

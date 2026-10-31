@@ -21,17 +21,27 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Gradle wrapper dosyasını kontrol et ve düzelt
+      - name: Gradle wrapper tanılama
         run: |
+          echo "=== dosya var mi? ==="
           ls -la gradlew
+          echo "=== dosya tipi ==="
+          file gradlew
+          echo "=== ilk 5 satir ==="
+          head -5 gradlew
+          echo "=== satır sonları ==="
+          file gradlew | grep -o "CRLF\|LF" || true
+
+      - name: Gradle wrapper düzelt ve çalıştırma izni ver
+        run: |
           sed -i 's/\r$//' gradlew
           chmod +x gradlew
 
       - name: Gradle sürümünü kontrol et
-        run: ./gradlew --version
+        run: bash ./gradlew --version
 
       - name: Debug APK derle
-        run: ./gradlew :app:assembleDebug --stacktrace
+        run: bash ./gradlew :app:assembleDebug --stacktrace
 
       - name: APK artifact olarak yükle
         uses: actions/upload-artifact@v4

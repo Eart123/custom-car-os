@@ -33,6 +33,13 @@ jobs:
           restore-keys: |
             android-sdk-${{ runner.os }}-
 
+      - name: Gradle 8.2 kur (wrapper oluşturma için)
+        run: |
+          curl -fsSL https://services.gradle.org/distributions/gradle-8.2-bin.zip -o /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
+          rm -f /tmp/gradle.zip
+
       - name: Gradle wrapper doğrula ve düzelt
         run: |
           # Wrapper dosyası bozuksa (repo박dak 4KB'lık dosya) yeniden oluştur

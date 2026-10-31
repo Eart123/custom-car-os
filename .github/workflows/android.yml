@@ -21,19 +21,15 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Android SDK paketlerini kur
-        env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
-        run: |
-          yes | $ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
-          $ANDROID_HOME/cmdline-tools/16.0/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+      - name: Android SDK kur
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
 
       - name: Gradle izni ver
         run: chmod +x gradlew
 
       - name: Debug APK derle
-        env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
         run: ./gradlew :app:assembleDebug
 
       - name: APK artifact olarak yükle

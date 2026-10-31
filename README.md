@@ -5,7 +5,6 @@ Privacy-first Android automotive launcher inspired by Vivid Car Launcher and Tes
 ## Araç Modeli
 
 - **Model:** Renault Symbol
-- **Plaka:** 20AUR23
 
 ## Arayüz Tasarımı (Referansla Uyumlu)
 
@@ -19,7 +18,7 @@ Ana dashboard, referans görseldeki split-screen tasarımın geliştirilmiş ver
 ## Özellikler
 
 - **Dashboard**: Split-screen (harita + Spotify yan yana), premium Tesla-style arayüz
-- **Araç Görselleştirme**: Renault Symbol 2D profil, kapı açılış/kapalama, far açma/kapatma, renk değiştirme, 20AUR23 plakası
+- **Araç Görselleştirme**: Renault Symbol 2D profil, kapı açılış/kapalama, far açma/kapatma, renk değiştirme
 - **Yerel Müzik**: Media3 ExoPlayer, MediaSession (kilit ekranı ve Bluetooth medya tuşları), MediaStore tarama (MP3, FLAC, AAC, WAV)
 - **Spotify**: Basit medya kontrolü — Spotify uygulaması açılır, oynatma/duraklatma/sonraki/önceki tuşları Android media key olayıyla Spotify'a gönderilir. **API anahtarı gerekmez, ek kütüphane yok.**
 - **Bluetooth**: Cihaz eşleştirme, A2DP ses çıkışı (fabrika hoparlörler), bağlantı durumu

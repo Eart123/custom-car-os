@@ -30,7 +30,7 @@
 
 ### Araç Görselleştirme
 - [x] Renault Symbol 2D profil çizimi
-- [x] Plaka: 20AUR23
+- [x] Plaka alanı (boş — kullanıcıya bırakıldı)
 - [x] Kapı aç/kapalı simülasyonu
 - [x] Far aç/kapa simülasyonu
 - [x] Renk seçici

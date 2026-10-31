@@ -51,16 +51,15 @@ jobs:
           WRAPPER_DIR="${GRADLE_USER_HOME}/wrapper/dists/gradle-${GRADLE_VERSION}-bin"
           
           find_gradle() {
-              local wrapper_jar="${WRAPPER_DIR}/gradle-wrapper.jar"
-              if [ ! -f "${wrapper_jar}" ]; then
+              local gradle_bin="${WRAPPER_DIR}/gradle-${GRADLE_VERSION}/bin/gradle"
+              if [ ! -f "${gradle_bin}" ]; then
                   echo "Downloading Gradle ${GRADLE_VERSION}..."
                   mkdir -p "${WRAPPER_DIR}"
                   curl -fsSL "${GRADLE_DIST_URL}" -o "${WRAPPER_DIR}/gradle.zip"
                   unzip -q "${WRAPPER_DIR}/gradle.zip" -d "${WRAPPER_DIR}"
-                  mv "${WRAPPER_DIR}/gradle-${GRADLE_VERSION}"/* "${WRAPPER_DIR}/"
-                  rm -rf "${WRAPPER_DIR}/gradle-${GRADLE_VERSION}" "${WRAPPER_DIR}/gradle.zip"
+                  rm -f "${WRAPPER_DIR}/gradle.zip"
               fi
-              echo "${WRAPPER_DIR}/bin/gradle"
+              echo "${WRAPPER_DIR}/gradle-${GRADLE_VERSION}/bin/gradle"
           }
           
           GRADLE_BIN=$(find_gradle)
@@ -74,17 +73,15 @@ jobs:
           set GRADLE_USER_HOME=%USERPROFILE%\.gradle
           set WRAPPER_DIR=%GRADLE_USER_HOME%\wrapper\dists\gradle-%GRADLE_VERSION%-bin
           
-          if not exist "%WRAPPER_DIR%\gradle-wrapper.jar" (
+          if not exist "%WRAPPER_DIR%\gradle-%GRADLE_VERSION%\bin\gradle.bat" (
               echo Downloading Gradle %GRADLE_VERSION%...
               mkdir "%WRAPPER_DIR%" 2>nul
               curl -fsSL "%GRADLE_DIST_URL%" -o "%WRAPPER_DIR%\gradle.zip"
               tar -xf "%WRAPPER_DIR%\gradle.zip" -C "%WRAPPER_DIR%"
-              move "%WRAPPER_DIR%\gradle-%GRADLE_VERSION%\*" "%WRAPPER_DIR%\" >nul
-              rmdir /s /q "%WRAPPER_DIR%\gradle-%GRADLE_VERSION%"
               del "%WRAPPER_DIR%\gradle.zip"
           )
           
-          "%WRAPPER_DIR%\bin\gradle.bat" %*
+          "%WRAPPER_DIR%\gradle-%GRADLE_VERSION%\bin\gradle.bat" %*
           EOF
           
           # gradle-wrapper.properties oluştur

@@ -21,11 +21,17 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Gradle izni ver
-        run: chmod +x gradlew
+      - name: Gradle wrapper dosyasını kontrol et ve düzelt
+        run: |
+          ls -la gradlew
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
+
+      - name: Gradle sürümünü kontrol et
+        run: ./gradlew --version
 
       - name: Debug APK derle
-        run: ./gradlew :app:assembleDebug
+        run: ./gradlew :app:assembleDebug --stacktrace
 
       - name: APK artifact olarak yükle
         uses: actions/upload-artifact@v4

@@ -2,7 +2,7 @@
 # Android Gradle Plugin
 agp = "8.2.0"
 # Kotlin
-kotlin = "1.9.24"
+kotlin = "1.9.23"
 # Compose BOM
 composeBom = "2024.01.00"
 # Compose Compiler

@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.kotlin.plugin.kapt)
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {

@@ -21,27 +21,46 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Gradle wrapper tanılama
+      - name: Gradle wrapper kontrol et
         run: |
-          echo "=== dosya var mi? ==="
-          ls -la gradlew
-          echo "=== dosya tipi ==="
-          file gradlew
-          echo "=== ilk 5 satir ==="
-          head -5 gradlew
-          echo "=== satır sonları ==="
-          file gradlew | grep -o "CRLF\|LF" || true
+          echo "=== gradlew var mi? ==="
+          ls -la gradlew 2>&1 || echo "gradlew YOK"
+          echo "=== gradle wrapper klasoru ==="
+          ls -la gradle/wrapper/ 2>&1 || echo "gradle/wrapper YOK"
+          echo "=== gradlew satir sayisi ==="
+          wc -l gradlew 2>&1 || echo "gradlew okunamadi"
+          echo "=== gradlew ilk satir ==="
+          head -1 gradlew 2>&1 || echo "gradlew okunamadi"
 
-      - name: Gradle wrapper düzelt ve çalıştırma izni ver
+      - name: Gradle wrapper düzelt (CRLF temizleme + izin)
         run: |
-          sed -i 's/\r$//' gradlew
-          chmod +x gradlew
+          if [ -f gradlew ]; then
+            sed -i 's/\r$//' gradlew
+            chmod +x gradlew
+          else
+            echo "gradlew dosyasi bulunamadi, Gradle wrapper indirilecek"
+            GRADLE_VERSION=8.2
+            curl -fsSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip
+            unzip -q /tmp/gradle.zip -d /tmp
+            ln -sf /tmp/gradle-${GRADLE_VERSION}/bin/gradle /usr/local/bin/gradle
+            ln -sf /tmp/gradle-${GRADLE_VERSION}/bin/gradlew /usr/local/bin/gradlew
+          fi
 
-      - name: Gradle sürümünü kontrol et
-        run: bash ./gradlew --version
+      - name: Gradle version kontrol et
+        run: |
+          if [ -f gradlew ]; then
+            bash ./gradlew --version
+          else
+            gradle --version
+          fi
 
       - name: Debug APK derle
-        run: bash ./gradlew :app:assembleDebug --stacktrace
+        run: |
+          if [ -f gradlew ]; then
+            bash ./gradlew :app:assembleDebug --stacktrace
+          else
+            gradle :app:assembleDebug --stacktrace
+          fi
 
       - name: APK artifact olarak yükle
         uses: actions/upload-artifact@v4

@@ -36,7 +36,7 @@
 # - Storage: Room entities, AppDatabase, StorageFacade, DAOs
 # - Music: LocalMusicPlayer (Media3 ExoPlayer), MusicPlayerPanel, CarMusicSessionService
 # - Bluetooth: BluetoothManager, BluetoothPanel (real state), BluetoothViewHolder
-# - Vehicle visualization: Renault Symbol 2D + door/light simulation
+# - Vehicle visualization: Renault Symbol 2D + 34ABC567 plate + door/light simulation
 # - Dashboard: MainDashboard split-screen (map left 60%, Spotify right 40%), AutoAppDock bottom bar
 # - Navigation: NavigationMap with speed overlay, weather overlay, zoom controls
 # - Spotify: SpotifyIntegration (media key control, album art, library chips)

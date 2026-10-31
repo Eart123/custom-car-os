@@ -30,7 +30,7 @@
 
 ### Araç Görselleştirme
 - [x] Renault Symbol 2D profil çizimi
-- [x] Plaka alanı (boş — kullanıcıya bırakıldı)
+- [x] Plaka: 34ABC567
 - [x] Kapı aç/kapalı simülasyonu
 - [x] Far aç/kapa simülasyonu
 - [x] Renk seçici

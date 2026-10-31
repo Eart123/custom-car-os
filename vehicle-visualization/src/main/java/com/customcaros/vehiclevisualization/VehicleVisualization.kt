@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
  * VehicleVisualization — Tesla-inspired araç arayüzü.
  *
  * Model: Renault Symbol
+ * Plaka: 34ABC567
  *
  * Şu an 2D Compose tabanlıdır. Filament 3D entegrasyonu için
  * [VehicleVisualization3D] sınıfını kullanabilirsin.
@@ -49,7 +50,7 @@ fun VehicleVisualization(
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Text(
-            text = "",
+            text = "34ABC567",
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = androidx.compose.ui.text.FontWeight.Medium,
                 fontFamily = androidx.compose.ui.text.FontFamily.Monospace
@@ -228,7 +229,7 @@ private fun DrawScope.drawRenaultSymbol(
             )
         }
 
-        // Plaka çizgisi — araç alt kısmına küçük bir çizgi olarak
+        // Plaka (34ABC567) — araç alt kısmına küçük bir çizgi olarak
         drawRect(
             color = Color(0xFFFFFFFF.toInt()),
             topLeft = androidx.compose.ui.geometry.Offset(centerX - carWidth * 0.15f, centerY + carHeight * 0.34f),

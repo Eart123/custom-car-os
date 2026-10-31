@@ -6,7 +6,7 @@ kotlin = "1.9.22"
 # Compose BOM
 composeBom = "2024.01.00"
 # Compose Compiler
-composeCompiler = "1.5.8"
+composeCompiler = "1.5.11"
 # Hilt
 hilt = "2.50"
 # AndroidX Core

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Custom Car OS</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="navigation">Navigation</string>
+    <string name="music">Music</string>
+    <string name="settings">Settings</string>
+    <string name="spotify">Spotify</string>
+    <string name="offline_maps">Offline Maps</string>
+    <string name="weather">Weather</string>
+    <string name="connect_spotify">Connect Spotify</string>
+    <string name="disconnect_spotify">Disconnect Spotify</string>
+    <string name="pair_device">Pair New Device</string>
+    <string name="browse_regions">Browse Regions</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="simulated_data_disclaimer">Simulated vehicle data — not connected to real OBD/CAN interface</string>
+</resources>

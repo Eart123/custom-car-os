@@ -1,0 +1,23 @@
+# Android / Gradle
+.gradle/
+build/
+*.iml
+*.ipr
+*.iws
+.idea/
+local.properties
+*.keystore
+*.jks
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# ProGuard
+proguard-rules.pro.out
+
+# Kotlin
+.kotlinc

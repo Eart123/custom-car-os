@@ -1,7 +1,7 @@
-apply(plugin = "com.android.library")
-apply(plugin = "org.jetbrains.kotlin.android")
-apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
-apply(plugin = "org.jetbrains.kotlin.kapt")
+apply { plugin("com.android.library") }
+apply { plugin("org.jetbrains.kotlin.android") }
+apply { plugin("org.jetbrains.kotlin.plugin.serialization") }
+apply { plugin("org.jetbrains.kotlin.kapt") }
 
 android {
     namespace = "com.customcaros.core"

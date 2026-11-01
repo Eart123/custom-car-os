@@ -1,7 +1,9 @@
-apply(plugin = "com.android.library")
-apply(plugin = "org.jetbrains.kotlin.android")
-apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
-apply(plugin = "org.jetbrains.kotlin.kapt")
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.kapt")
+}
 
 android {
     namespace = "com.customcaros.storage"

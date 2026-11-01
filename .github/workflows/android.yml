@@ -33,15 +33,11 @@ jobs:
           restore-keys: |
             android-sdk-${{ runner.os }}-
 
-      - name: Gradle 8.2 kur
-        run: |
-          curl -fsSL https://services.gradle.org/distributions/gradle-8.2-bin.zip -o /tmp/gradle.zip
-          unzip -q /tmp/gradle.zip -d /opt
-          ln -sf /opt/gradle-8.2/bin/gradle /usr/local/bin/gradle
-          rm -f /tmp/gradle.zip
+      - name: Gradle wrapper izin ver
+        run: chmod +x ./gradlew
 
       - name: Gradle sürüm kontrol
-        run: gradle --version
+        run: ./gradlew --version
 
       - name: Gradle dependency cache
         uses: actions/cache@v4
@@ -57,7 +53,7 @@ jobs:
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true"
         run: |
-          gradle :app:assembleDebug --stacktrace --no-daemon
+          ./gradlew :app:assembleDebug --stacktrace --no-daemon
 
       - name: APK bul ve artifact yükle
         if: success()

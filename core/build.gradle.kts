@@ -1,9 +1,7 @@
-plugins {
-    id("com.android.library") version "8.2.0"
-    id("org.jetbrains.kotlin.android") version "1.9.22"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
-    id("org.jetbrains.kotlin.kapt") version "1.9.22"
-}
+apply(plugin = "com.android.library")
+apply(plugin = "org.jetbrains.kotlin.android")
+apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+apply(plugin = "org.jetbrains.kotlin.kapt")
 
 android {
     namespace = "com.customcaros.core"

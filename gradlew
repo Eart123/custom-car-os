@@ -21,7 +21,7 @@ SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_PATH")" >/dev/null 2>&1 && pwd)"
 APP_HOME="$SCRIPT_DIR"
 
 # Set default JVM options
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+DEFAULT_JVM_OPTS="-Xmx64m -Xms64m"
 
 # Determine the Java command to use to start Gradle
 if [ -n "$JAVA_HOME" ] ; then

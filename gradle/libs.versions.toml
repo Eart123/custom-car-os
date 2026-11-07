@@ -79,15 +79,12 @@ media3-datasource = { group = "androidx.media3", name = "media3-datasource", ver
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
 # Coil
-coil-compose = { group = "io.coil-kt.coil", name = "coil-compose", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # Mapsforge (offline maps)
 mapsforge-map = { group = "org.mapsforge", name = "mapsforge-map", version.ref = "mapsforge" }
 mapsforge-map-android = { group = "org.mapsforge", name = "mapsforge-map-android", version.ref = "mapsforge" }
 mapsforge-map-reader = { group = "org.mapsforge", name = "mapsforge-map-reader", version.ref = "mapsforge" }
-
-# GraphHopper (offline routing)
-graphhopper-core = { group = "com.graphhopper", name = "graphhopper", version.ref = "graphhopper" }
 
 # Filament (3D engine)
 filament = { group = "com.google.android.filament", name = "filament-android", version.ref = "filament" }

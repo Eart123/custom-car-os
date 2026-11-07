@@ -40,7 +40,4 @@ dependencies {
     implementation(libs.mapsforge.map)
     implementation(libs.mapsforge.map.android)
     implementation(libs.mapsforge.map.reader)
-
-    // GraphHopper for offline routing
-    implementation(libs.graphhopper.core)
 }

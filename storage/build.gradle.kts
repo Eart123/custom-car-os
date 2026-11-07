@@ -22,6 +22,8 @@ android {
 
     kotlinOptions { jvmTarget = "11" }
 
+    composeOptions { kotlinCompilerExtensionVersion = "1.5.8" }
+
     buildFeatures { compose = true; buildConfig = true }
 }
 

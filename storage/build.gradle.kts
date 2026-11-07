@@ -1,8 +1,8 @@
 plugins {
-    id("com.android.library") version "8.2.0"
-    id("org.jetbrains.kotlin.android") version "1.9.22"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22"
-    id("org.jetbrains.kotlin.kapt") version "1.9.22"
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {

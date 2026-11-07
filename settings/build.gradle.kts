@@ -13,11 +13,6 @@ android {
         vectorDrawables { useSupportLibrary = true }
     }
 
-    buildTypes {
-        release { isMinifyEnabled = false }
-        debug { isDebuggable = true }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

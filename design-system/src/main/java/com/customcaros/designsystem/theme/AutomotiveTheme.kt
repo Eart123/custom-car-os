@@ -1,47 +1,47 @@
 package com.customcaros.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.customcaros.designsystem.R
 
 object AutomotiveColors {
-    val BackgroundDark = 0xFF0A0A0A.toInt()
-    val BackgroundSurface = 0xFF141414.toInt()
-    val BackgroundCard = 0xFF1E1E1E.toInt()
-    val BackgroundElevated = 0xFF252525.toInt()
+    val BackgroundDark = Color(0xFF0A0A0A)
+    val BackgroundSurface = Color(0xFF141414)
+    val BackgroundCard = Color(0xFF1E1E1E)
+    val BackgroundElevated = Color(0xFF252525)
 
-    val Primary = 0xFF00D4FF.toInt()
-    val PrimaryContainer = 0xFF1A3B4A.toInt()
-    val OnPrimary = 0xFF000000.toInt()
+    val Primary = Color(0xFF00D4FF)
+    val PrimaryContainer = Color(0xFF1A3B4A)
+    val OnPrimary = Color(0xFF000000)
 
-    val Secondary = 0xFF64FFDA.toInt()
-    val OnSecondary = 0xFF000000.toInt()
+    val Secondary = Color(0xFF64FFDA)
+    val OnSecondary = Color(0xFF000000)
 
-    val Tertiary = 0xFFCF66FF.toInt()
-    val OnTertiary = 0xFF000000.toInt()
+    val Tertiary = Color(0xFFCF66FF)
+    val OnTertiary = Color(0xFF000000)
 
-    val Surface = 0xFF141414.toInt()
-    val SurfaceVariant = 0xFF2A2A2A.toInt()
-    val OnSurface = 0xFFE0E0E0.toInt()
-    val OnSurfaceVariant = 0xFFB0B0B0.toInt()
-    val Outline = 0xFF3A3A3A.toInt()
+    val Surface = Color(0xFF141414)
+    val SurfaceVariant = Color(0xFF2A2A2A)
+    val OnSurface = Color(0xFFE0E0E0)
+    val OnSurfaceVariant = Color(0xFFB0B0B0)
+    val Outline = Color(0xFF3A3A3A)
 
-    val Success = 0xFF00E676.toInt()
-    val Warning = 0xFFFFF176.toInt()
-    val Error = 0xFFFF5252.toInt()
-    val Info = 0xFF29B6F6.toInt()
+    val Success = Color(0xFF00E676)
+    val Warning = Color(0xFFFFF176)
+    val Error = Color(0xFFFF5252)
+    val Info = Color(0xFF29B6F6)
 
-    val TextPrimary = 0xFFFFFFFF.toInt()
-    val TextSecondary = 0xFFB0B0B0.toInt()
-    val TextDisabled = 0xFF4A4A4A.toInt()
+    val TextPrimary = Color(0xFFFFFFFF)
+    val TextSecondary = Color(0xFFB0B0B0)
+    val TextDisabled = Color(0xFF4A4A4A)
 
-    val DashboardGlow = 0xFF00D4FF.toInt()
-    val SpeedometerNeedle = 0xFFFF5252.toInt()
+    val DashboardGlow = Color(0xFF00D4FF)
+    val SpeedometerNeedle = Color(0xFFFF5252)
 }
 
 object AutomotiveTypography {
@@ -94,8 +94,6 @@ val DarkAutomotiveColorScheme = darkColorScheme(
     outline = AutomotiveColors.Outline,
     background = AutomotiveColors.BackgroundDark,
     onBackground = AutomotiveColors.TextPrimary,
-    surfaceDim = AutomotiveColors.BackgroundDark,
-    surfaceBright = AutomotiveColors.BackgroundSurface,
     surfaceContainerLowest = AutomotiveColors.BackgroundDark,
     surfaceContainerLow = AutomotiveColors.BackgroundSurface,
     surfaceContainer = AutomotiveColors.BackgroundCard,
@@ -105,12 +103,9 @@ val DarkAutomotiveColorScheme = darkColorScheme(
     inverseOnSurface = AutomotiveColors.TextPrimary,
     inversePrimary = AutomotiveColors.Primary,
     error = AutomotiveColors.Error,
-    errorContainer = 0xFF1A0000.toInt(),
+    errorContainer = Color(0xFF1A0000),
     onError = AutomotiveColors.TextPrimary,
-    onErrorContainer = AutomotiveColors.TextPrimary,
-    success = AutomotiveColors.Success,
-    warning = AutomotiveColors.Warning,
-    info = AutomotiveColors.Info
+    onErrorContainer = AutomotiveColors.TextPrimary
 )
 
 val LightAutomotiveColorScheme = lightColorScheme(
@@ -121,10 +116,10 @@ val LightAutomotiveColorScheme = lightColorScheme(
     onSecondary = AutomotiveColors.OnSecondary,
     tertiary = AutomotiveColors.Tertiary,
     onTertiary = AutomotiveColors.OnTertiary,
-    background = 0xFFF5F5F5.toInt(),
-    onBackground = 0xFF1A1A1A.toInt(),
-    surface = 0xFFFFFFFF.toInt(),
-    onSurface = 0xFF1A1A1A.toInt(),
+    background = Color(0xFFF5F5F5),
+    onBackground = Color(0xFF1A1A1A),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF1A1A1A),
     outline = AutomotiveColors.Outline
 )
 

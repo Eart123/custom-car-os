@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.FontFamily
-import androidx.compose.ui.text.FontWeight
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -42,9 +42,10 @@ fun AutoCard(
         modifier = modifier,
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = elevation),
-        content = content
-    )
+        elevation = CardDefaults.cardElevation(defaultElevation = elevation)
+    ) {
+        content()
+    }
 }
 
 /**
@@ -195,7 +196,7 @@ fun AutoStatusRow(
  */
 @Composable
 fun AutoDivider(modifier: Modifier = Modifier) {
-    HorizontalDivider(
+    Divider(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
         thickness = 1.dp
@@ -320,10 +321,10 @@ fun AutoAppDock(
         modifier = modifier.fillMaxWidth().height(88.dp)
     ) {
         // Top divider
-        HorizontalDivider(
+        Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(alignment = Alignment.Top),
+                .align(alignment = Alignment.TopCenter),
             color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
             thickness = 1.dp
         )
@@ -332,7 +333,7 @@ fun AutoAppDock(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp)
-                .align(Alignment.Bottom),
+                .align(Alignment.BottomCenter),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

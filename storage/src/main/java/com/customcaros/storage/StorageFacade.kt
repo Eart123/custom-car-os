@@ -48,7 +48,7 @@ class StorageFacade private constructor(
         }
 
         fun destroy() {
-            instance?.database.close()
+            instance?.database?.close()
             instance = null
         }
     }

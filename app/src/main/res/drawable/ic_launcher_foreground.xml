@@ -10,15 +10,11 @@
         <path
             android:fillColor="#00D4FF"
             android:pathData="M24,60 Q24,36 48,36 Q72,36 72,60 Q72,84 48,84 Q24,84 24,60 Z"/>
-        <circle
-            android:cx="36"
-            android:cy="60"
-            android:r="8"
-            android:fillColor="#FFFFFF"/>
-        <circle
-            android:cx="60"
-            android:cy="60"
-            android:r="8"
-            android:fillColor="#FFFFFF"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M28,60 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0"/>
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M52,60 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0"/>
     </group>
 </vector>

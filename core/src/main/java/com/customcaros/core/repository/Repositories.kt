@@ -4,7 +4,7 @@ import com.customcaros.core.models.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.flow.update
 
 /**
  * Repository for music data (local files only).
@@ -19,28 +19,28 @@ class MusicRepository {
     val playlists: Flow<List<Playlist>> = _playlists.asStateFlow()
 
     fun setTracks(tracks: List<MusicTrack>) {
-        _tracks.updateAndGet { tracks }
+        _tracks.update { tracks }
     }
 
     fun setPlaylists(playlists: List<Playlist>) {
-        _playlists.updateAndGet { playlists }
+        _playlists.update { playlists }
     }
 
     fun addTrackToPlaylist(playlistId: String, trackId: String) {
-        _playlists.updateAndGet { playlists ->
+        _playlists.update { playlists ->
             playlists.map { p ->
                 if (p.id == playlistId && !p.trackIds.contains(trackId)) {
-                    p.copy(trackIds = p.trackIds + trackId)
+                    p.copy(trackIds = (p.trackIds + trackId).toMutableList())
                 } else p
             }
         }
     }
 
     fun removeTrackFromPlaylist(playlistId: String, trackId: String) {
-        _playlists.updateAndGet { playlists ->
+        _playlists.update { playlists ->
             playlists.map { p ->
                 if (p.id == playlistId) {
-                    p.copy(trackIds = p.trackIds - trackId)
+                    p.copy(trackIds = (p.trackIds - trackId).toMutableList())
                 } else p
             }
         }
@@ -56,15 +56,15 @@ class NavigationRepository {
     val destinations: Flow<List<SavedDestination>> = _destinations.asStateFlow()
 
     fun setDestinations(destinations: List<SavedDestination>) {
-        _destinations.updateAndGet { destinations }
+        _destinations.update { destinations }
     }
 
     fun addDestination(dest: SavedDestination) {
-        _destinations.updateAndGet { list -> list + dest }
+        _destinations.update { list -> list + dest }
     }
 
     fun removeDestination(id: String) {
-        _destinations.updateAndGet { list -> list.filter { it.id != id } }
+        _destinations.update { list -> list.filter { it.id != id } }
     }
 }
 
@@ -77,27 +77,27 @@ class VehicleRepository {
     val state: Flow<VehicleState> = _state.asStateFlow()
 
     fun updateState(updater: (VehicleState) -> VehicleState) {
-        _state.updateAndGet { updater(it) }
+        _state.update { updater(it) }
     }
 
     fun setSimulatedSpeed(kmh: Double) {
-        _state.updateAndGet { it.copy(speedKmh = kmh) }
+        _state.update { it.copy(speedKmh = kmh) }
     }
 
     fun toggleHeadlights() {
-        _state.updateAndGet { it.copy(headlightsOn = !it.headlightsOn) }
+        _state.update { it.copy(headlightsOn = !it.headlightsOn) }
     }
 
     fun toggleLock() {
-        _state.updateAndGet { it.copy(isLocked = !it.isLocked) }
+        _state.update { it.copy(isLocked = !it.isLocked) }
     }
 
     fun setDoorOpen(open: Boolean) {
-        _state.updateAndGet { it.copy(doorOpen = open) }
+        _state.update { it.copy(doorOpen = open) }
     }
 
     fun setColor(colorHex: String) {
-        _state.updateAndGet { it.copy(colorHex = colorHex) }
+        _state.update { it.copy(colorHex = colorHex) }
     }
 }
 
@@ -113,23 +113,23 @@ class BluetoothRepository {
     val connectedDevice: Flow<BluetoothDeviceInfo?> = _connectedDevice.asStateFlow()
 
     fun setDevices(devices: List<BluetoothDeviceInfo>) {
-        _devices.updateAndGet { devices }
+        _devices.update { devices }
     }
 
     fun setConnectedDevice(device: BluetoothDeviceInfo?) {
-        _connectedDevice.updateAndGet { device }
+        _connectedDevice.update { device }
     }
 
     fun updateConnectionStatus(address: String, connected: Boolean) {
-        _devices.updateAndGet { list ->
+        _devices.update { list ->
             list.map { d ->
                 if (d.address == address) d.copy(isConnected = connected) else d
             }
         }
         if (connected) {
-            _connectedDevice.updateAndGet { _devices.value.firstOrNull { it.address == address } }
+            _connectedDevice.update { _devices.value.firstOrNull { it.address == address } }
         } else {
-            _connectedDevice.updateAndGet { null }
+            _connectedDevice.update { null }
         }
     }
 }
@@ -143,10 +143,10 @@ class WeatherRepository {
     val weather: Flow<WeatherInfo?> = _weather.asStateFlow()
 
     fun updateWeather(weather: WeatherInfo) {
-        _weather.updateAndGet { weather }
+        _weather.update { weather }
     }
 
     fun clearWeather() {
-        _weather.updateAndGet { null }
+        _weather.update { null }
     }
 }

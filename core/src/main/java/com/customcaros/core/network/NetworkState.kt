@@ -1,5 +1,7 @@
 package com.customcaros.core.network
 
+import kotlinx.coroutines.flow.Flow
+
 /**
  * Represents the current network connectivity state of the device.
  *

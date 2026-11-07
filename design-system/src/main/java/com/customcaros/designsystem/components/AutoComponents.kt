@@ -1,5 +1,6 @@
 package com.customcaros.designsystem.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.FontFamily
+import androidx.compose.ui.text.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object AutomotiveShape {
     val Small = 8.dp
@@ -28,13 +35,13 @@ fun AutoCard(
     modifier: Modifier = Modifier,
     elevation: Dp = 2.dp,
     shape: Shape = RoundedCornerShape(16.dp),
-    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceVariant,
     content: @Composable () -> Unit
 ) {
     Card(
         modifier = modifier,
         shape = shape,
-        colors = CardDefaults.cardColors(backgroundColor),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
         elevation = CardDefaults.cardElevation(defaultElevation = elevation),
         content = content
     )
@@ -62,7 +69,7 @@ fun AutoButton(
         )
     } else {
         ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = MaterialTheme.colorScheme.primary,
             disabledContainerColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.1f),
             disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
@@ -73,8 +80,7 @@ fun AutoButton(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
-            .clickable(enabled = enabled, onClickLabel = text, onClick = onClick),
+            .height(56.dp),
         colors = colors,
         shape = RoundedCornerShape(14.dp),
         enabled = enabled,
@@ -110,9 +116,10 @@ fun AutoSwitch(
         onCheckedChange = onCheckedChange,
         modifier = modifier.height(32.dp),
         colors = SwitchDefaults.colors(
-            checkedColor = MaterialTheme.colorScheme.primary,
-            uncheckedColor = MaterialTheme.colorScheme.outline,
-            thumbColor = MaterialTheme.colorScheme.onBackground
+            checkedThumbColor = MaterialTheme.colorScheme.primary,
+            checkedTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            uncheckedThumbColor = MaterialTheme.colorScheme.outline,
+            uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant
         )
     )
 }
@@ -120,6 +127,7 @@ fun AutoSwitch(
 /**
  * Info chip — small status indicator (Bluetooth, GPS, battery, etc.)
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AutoChip(
     label: String,
@@ -127,22 +135,23 @@ fun AutoChip(
     color: Color = MaterialTheme.colorScheme.primaryContainer,
     contentColor: Color = MaterialTheme.colorScheme.primary
 ) {
-    Chip(
-        onClick = {},
+    AssistChip(
+        onClick = { },
         modifier = Modifier.height(36.dp),
-        colors = ChipDefaults.chipColors(
-            containerColor = color,
-            contentColor = contentColor
-        ),
-        shape = RoundedCornerShape(AutomotiveShape.Full),
-        leadingIcon = icon,
         label = {
             Text(
                 text = label,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.labelLarge,
                 color = contentColor
             )
-        }
+        },
+        leadingIcon = icon,
+        colors = AssistChipDefaults.assistChipColors(
+            containerColor = color,
+            labelColor = contentColor,
+            leadingIconContentColor = contentColor
+        ),
+        shape = RoundedCornerShape(AutomotiveShape.Full)
     )
 }
 
@@ -174,7 +183,7 @@ fun AutoStatusRow(
         Text(
             text = value,
             style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = androidx.compose.ui.text.FontWeight.Medium
+                fontWeight = FontWeight.Medium
             ),
             color = valueColor
         )
@@ -186,7 +195,7 @@ fun AutoStatusRow(
  */
 @Composable
 fun AutoDivider(modifier: Modifier = Modifier) {
-    Divider(
+    HorizontalDivider(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
         thickness = 1.dp
@@ -212,7 +221,7 @@ fun AutoGlowContainer(
             )
             .clip(RoundedCornerShape(20.dp))
             .background(
-                color = MaterialTheme.colorScheme.surfaceContainer,
+                color = MaterialTheme.colorScheme.surfaceVariant,
                 shape = RoundedCornerShape(20.dp)
             )
     ) {
@@ -232,9 +241,9 @@ fun AutoLargeNumber(
     Text(
         text = value,
         style = MaterialTheme.typography.displayLarge.copy(
-            fontSize = fontSize,
-            fontWeight = androidx.compose.ui.text.FontWeight.Bold,
-            fontFamily = androidx.compose.ui.text.FontFamily.Monospace
+            fontSize = fontSize.value.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.Monospace
         ),
         color = color
     )
@@ -250,7 +259,7 @@ fun AutoUnitLabel(
 ) {
     Text(
         text = text,
-        style = MaterialTheme.typography.caption,
+        style = MaterialTheme.typography.labelSmall,
         color = color
     )
 }
@@ -286,12 +295,13 @@ fun AutoDockItem(
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.caption.copy(
-                fontWeight = if (isSelected) androidx.compose.ui.text.FontWeight.Medium else androidx.compose.ui.text.FontWeight.Normal
+            style = MaterialTheme.typography.labelSmall.copy(
+                fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
             ),
             color = contentColor,
             maxLines = 1,
-            modifier = Modifier.width(48.dp).align(Alignment.CenterHorizontally)
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.width(48.dp)
         )
     }
 }
@@ -310,13 +320,19 @@ fun AutoAppDock(
         modifier = modifier.fillMaxWidth().height(88.dp)
     ) {
         // Top divider
-        Divider(
-            modifier = Modifier.fillMaxWidth().align(alignment = Alignment.Top),
-            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(alignment = Alignment.Top),
+            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+            thickness = 1.dp
         )
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
+                .align(Alignment.Bottom),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

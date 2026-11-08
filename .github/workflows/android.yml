@@ -47,7 +47,13 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Gradle sürüm kontrol
-        run: ./gradlew --version
+        run: |
+          for attempt in 1 2 3; do
+            ./gradlew --version && exit 0
+            echo "gradlew denemesi $attempt başarısız, 15 sn bekleniyor..."
+            sleep 15
+          done
+          exit 1
 
       - name: Debug APK derle
         env:

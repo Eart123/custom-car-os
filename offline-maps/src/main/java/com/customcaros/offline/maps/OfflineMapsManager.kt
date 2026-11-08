@@ -4,15 +4,17 @@ import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.customcaros.designsystem.components.AutoCard
 import com.customcaros.designsystem.theme.AutomotiveTheme
 import com.customcaros.core.network.ConnectionStateHolder
 import com.customcaros.core.network.ConnectivityManagerObserver
 import com.customcaros.core.network.NetworkState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collectAsState
 
 /**
  * OfflineMapsManager — çevrimdışı harita yönetimi.
@@ -31,10 +33,9 @@ fun OfflineMapsManager(
     connectionHolder: ConnectionStateHolder,
     modifier: Modifier = Modifier
 ) {
-    val connectivityObserver = remember {
-        ConnectivityManagerObserver.init(context)
-    }
-    val isConnected by connectivityObserver.observe().collectAsState(initialValue = NetworkState.Disconnected)
+    val connectivityObserver = remember { ConnectivityManagerObserver.init(context) }
+    val isConnected by connectivityObserver.observe()
+        .collectAsStateWithLifecycle(initialValue = NetworkState.Unknown)
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
         Text(

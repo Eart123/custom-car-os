@@ -52,42 +52,14 @@ class LocalMusicPlayer private constructor(
 
     init {
         player.addListener(object : Player.Listener {
-            override fun onPlaybackStateChanged(@Player.State playbackState: Int) {
+            override fun onPlaybackStateChanged(playbackState: Int) {
                 _isPlaying.update { playbackState == Player.STATE_READY && player.isPlaying }
-            }
-            override fun onPositionDiscontinuity(
-                reason: Int,
-                oldPositionMs: Long,
-                oldTotalMs: Long,
-                newPositionMs: Long,
-                newTotalMs: Long
-            ) {
-                _positionMs.update { newPositionMs }
-                _durationMs.update { newTotalMs }
-            }
-            override fun onPositionDiscontinuity(oldPosition: Long, newPosition: Long, reason: Int) {
-                _positionMs.update { newPosition }
-            }
-            override fun onPositionDiscontinuity(oldPositionMs: Long, newPositionMs: Long, reason: Int) {
-                _positionMs.update { newPositionMs }
-            }
-            override fun onPositionDiscontinuity(oldPosition: Long, newPosition: Long) {
-                _positionMs.update { newPosition }
-            }
-            override fun onPositionDiscontinuity(oldPositionMs: Long, newPositionMs: Long) {
-                _positionMs.update { newPositionMs }
-            }
-            override fun onPositionDiscontinuity(reason: Int) {
-                // no-op
-            }
-            override fun onPositionDiscontinuity(oldPositionMs: Long, newPositionMs: Long) {
-                _positionMs.update { newPositionMs }
             }
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 _isPlaying.update { isPlaying }
             }
-            override fun onPositionDiscontinuity(oldPosition: Long, newPosition: Long) {
-                _positionMs.update { newPosition }
+            override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
+                _isPlaying.update { false }
             }
         })
     }
@@ -248,10 +220,9 @@ class CarMusicSessionService : MediaSessionService() {
         super.onCreate()
     }
 
-    override fun onGetSession(controller: androidx.media3.session.Controller): MediaSession? {
+    override fun onGetSession(controllerInfo: androidx.media3.session.ControllerInfo): MediaSession? {
         val player = LocalMusicPlayer.get()
         val session = MediaSession.Builder(this, player)
-            .setSessionToken(SessionToken.Builder(this).build())
             .build()
         return session
     }

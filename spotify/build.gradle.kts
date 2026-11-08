@@ -35,7 +35,10 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":music"))
+    implementation(project(":design-system"))
     implementation(project(":bluetooth"))
+
+    implementation(libs.compose.material.icons.extended)
 
     // Spotify integration uses Android MediaSession + official Spotify App Remote / Web API
     // No proprietary scraping. Uses Spotify's official Android SDK where available,

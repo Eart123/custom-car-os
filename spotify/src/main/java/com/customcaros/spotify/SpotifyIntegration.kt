@@ -2,13 +2,29 @@ package com.customcaros.spotify
 
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.customcaros.designsystem.components.AutoCard
@@ -59,7 +75,7 @@ fun SpotifyIntegration(
                     modifier = Modifier.align(Alignment.TopEnd)
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material3.Icons.Default.MusicNote,
+                        imageVector = Icons.Default.MusicNote,
                         contentDescription = "Spotify",
                         tint = Color(0xFF1DB954.toInt()),
                         modifier = Modifier.size(24.dp)
@@ -75,7 +91,7 @@ fun SpotifyIntegration(
                         .align(Alignment.Center)
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material3.Icons.Default.Album,
+                        imageVector = Icons.Default.Album,
                         contentDescription = "Album art",
                         tint = Color(0xFFB0B0B0.toInt()),
                         modifier = Modifier.size(80.dp).align(Alignment.Center)
@@ -118,7 +134,7 @@ fun SpotifyIntegration(
                 shape = CircleShape
             ) {
                 Icon(
-                    imageVector = androidx.compose.material3.Icons.Default.Favorite,
+                    imageVector = Icons.Default.Favorite,
                     contentDescription = "Like",
                     tint = Color(0xFFB0B0B0.toInt())
                 )
@@ -135,7 +151,7 @@ fun SpotifyIntegration(
                 shape = CircleShape
             ) {
                 Icon(
-                    imageVector = androidx.compose.material3.Icons.Default.SkipPrevious,
+                    imageVector = Icons.Default.SkipPrevious,
                     contentDescription = "Previous",
                     tint = Color.White
                 )
@@ -152,7 +168,7 @@ fun SpotifyIntegration(
                 shape = CircleShape
             ) {
                 Icon(
-                    imageVector = if (isPlaying) androidx.compose.material3.Icons.Default.Pause else androidx.compose.material3.Icons.Default.PlayArrow,
+                    imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
                     contentDescription = if (isPlaying) "Pause" else "Play",
                     tint = Color(0xFF000000.toInt())
                 )
@@ -169,7 +185,7 @@ fun SpotifyIntegration(
                 shape = CircleShape
             ) {
                 Icon(
-                    imageVector = androidx.compose.material3.Icons.Default.SkipNext,
+                    imageVector = Icons.Default.SkipNext,
                     contentDescription = "Next",
                     tint = Color.White
                 )
@@ -186,7 +202,7 @@ fun SpotifyIntegration(
                 shape = CircleShape
             ) {
                 Icon(
-                    imageVector = androidx.compose.material3.Icons.Default.List,
+                    imageVector = Icons.Default.List,
                     contentDescription = "Queue",
                     tint = Color(0xFFB0B0B0.toInt())
                 )
@@ -289,8 +305,9 @@ private fun checkSpotifyInstalled(context: Context): Boolean {
  * Android media key olayı gönderir (Spotify gibi medya uygulamaları tarafından yakalanır).
  */
 private fun sendMediaKey(context: Context, keyCode: Int) {
+    val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     val downEvent = android.view.KeyEvent(android.view.KeyEvent.ACTION_DOWN, keyCode)
     val upEvent = android.view.KeyEvent(android.view.KeyEvent.ACTION_UP, keyCode)
-    context.dispatchKeyEvent(downEvent)
-    context.dispatchKeyEvent(upEvent)
+    audioManager.dispatchMediaKeyEvent(downEvent)
+    audioManager.dispatchMediaKeyEvent(upEvent)
 }

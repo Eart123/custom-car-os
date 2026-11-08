@@ -1,9 +1,18 @@
 package com.customcaros.music
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import com.customcaros.designsystem.components.*
 import com.customcaros.designsystem.theme.AutomotiveTheme
 
@@ -33,7 +42,7 @@ fun MusicPlayerPanel(
                 .background(Color(0xFF2A2A2A.toInt()))
         ) {
             Icon(
-                imageVector = androidx.compose.material3.Icons.Default.Album,
+                imageVector = Icons.Default.Album,
                 contentDescription = "Album art",
                 tint = Color(0xFFB0B0B0.toInt()),
                 modifier = Modifier.size(96.dp).align(Alignment.Center)

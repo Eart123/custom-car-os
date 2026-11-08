@@ -3,11 +3,13 @@ package com.customcaros.bluetooth
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.customcaros.designsystem.components.AutoCard
 import com.customcaros.designsystem.theme.AutomotiveTheme
-import kotlinx.coroutines.flow.collectAsState
 
 /**
  * BluetoothPanel — Bluetooth ses çıkışı ve ayar paneli.
@@ -20,8 +22,8 @@ fun BluetoothPanel(
     onPair: () -> Unit = {},
     onDisconnect: () -> Unit = {}
 ) {
-    val connectedDevice by bluetoothManager.connectedDevice.collectAsState()
-    val isEnabled by bluetoothManager.isEnabled.collectAsState()
+    val connectedDevice by bluetoothManager.connectedDevice.collectAsStateWithLifecycle()
+    val isEnabled by bluetoothManager.isEnabled.collectAsStateWithLifecycle()
     val isAvailable = bluetoothManager.isBluetoothAvailable()
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp)) {

@@ -34,7 +34,11 @@ dependencies {
     implementation(libs.compose.material3)
 
     implementation(project(":core"))
+    implementation(project(":design-system"))
     implementation(project(":storage"))
+
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Mapsforge for offline map rendering
     implementation(libs.mapsforge.map)

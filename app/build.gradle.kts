@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.compose.foundation.layout)
     implementation(libs.compose.material3)
     implementation(libs.compose.animation)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

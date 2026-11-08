@@ -36,6 +36,9 @@ dependencies {
     implementation(libs.compose.animation)
     implementation(libs.coil.compose)
 
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.compose.material.icons.extended)
+
     implementation(project(":core"))
     implementation(project(":design-system"))
     implementation(project(":storage"))

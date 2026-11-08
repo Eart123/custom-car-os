@@ -34,6 +34,8 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.animation)
 
+    implementation(libs.kotlinx.coroutines.android)
+
     implementation(project(":core"))
     implementation(project(":design-system"))
 

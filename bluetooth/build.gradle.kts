@@ -35,4 +35,10 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":storage"))
+
+    // Process lifecycle observer for BT state cleanup
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.compose.material.icons.extended)
 }

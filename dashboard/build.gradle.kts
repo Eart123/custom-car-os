@@ -39,8 +39,13 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.coil.compose)
 
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.compose.material.icons.extended)
+
     implementation(project(":core"))
     implementation(project(":design-system"))
+    implementation(project(":navigation"))
     implementation(project(":storage"))
     implementation(project(":weather"))
     implementation(project(":bluetooth"))

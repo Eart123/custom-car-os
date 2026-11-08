@@ -1,10 +1,13 @@
 package com.customcaros.weather
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.customcaros.designsystem.components.AutoCard
 import com.customcaros.designsystem.theme.AutomotiveTheme
@@ -63,7 +66,7 @@ fun WeatherWidget(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material3.Icons.Default.WbSunny,
+                        imageVector = Icons.Default.WbSunny,
                         contentDescription = "Weather icon",
                         tint = Color(0xFFFFF176.toInt()),
                         modifier = Modifier.size(16.dp)

@@ -35,6 +35,9 @@ dependencies {
     implementation(libs.navigation.compose)
 
     implementation(project(":core"))
-    implementation(project(":offline-maps"))
+    implementation(project(":weather"))
+    implementation(project(":design-system"))
     implementation(project(":storage"))
+
+    implementation(libs.compose.material.icons.extended)
 }

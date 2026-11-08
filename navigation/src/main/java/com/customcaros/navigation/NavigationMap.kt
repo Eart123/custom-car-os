@@ -1,11 +1,27 @@
 package com.customcaros.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocalGasStation
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Navigation
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.customcaros.designsystem.components.AutoCard
@@ -60,7 +76,7 @@ fun NavigationMap(
                     shape = CircleShape
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material3.Icons.Default.Navigation,
+                        imageVector = Icons.Default.Navigation,
                         contentDescription = "Navigation",
                         tint = Color.White
                     )
@@ -85,7 +101,7 @@ fun NavigationMap(
                     shape = CircleShape
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material3.Icons.Default.Add,
+                        imageVector = Icons.Default.Add,
                         contentDescription = "Zoom in",
                         tint = Color.White
                     )
@@ -101,7 +117,7 @@ fun NavigationMap(
                     shape = CircleShape
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material3.Icons.Default.Remove,
+                        imageVector = Icons.Default.Remove,
                         contentDescription = "Zoom out",
                         tint = Color.White
                     )
@@ -161,7 +177,7 @@ fun NavigationMap(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = androidx.compose.material3.Icons.Default.WbSunny,
+                            imageVector = Icons.Default.WbSunny,
                             contentDescription = "Weather",
                             tint = Color(0xFFFFF176.toInt())
                         )

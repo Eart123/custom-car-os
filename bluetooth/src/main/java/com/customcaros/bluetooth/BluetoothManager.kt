@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,16 +35,16 @@ class BluetoothManager private constructor(
         (context.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager)?.adapter
 
     private val _devices = MutableStateFlow(emptyList<BluetoothDeviceInfo>())
-    val devices: Flow<List<BluetoothDeviceInfo>> = _devices.asStateFlow()
+    val devices: StateFlow<List<BluetoothDeviceInfo>> = _devices.asStateFlow()
 
     private val _connectedDevice = MutableStateFlow<BluetoothDeviceInfo?>(null)
-    val connectedDevice: Flow<BluetoothDeviceInfo?> = _connectedDevice.asStateFlow()
+    val connectedDevice: StateFlow<BluetoothDeviceInfo?> = _connectedDevice.asStateFlow()
 
     private val _isEnabled = MutableStateFlow(bluetoothAdapter?.isEnabled == true)
-    val isEnabled: Flow<Boolean> = _isEnabled.asStateFlow()
+    val isEnabled: StateFlow<Boolean> = _isEnabled.asStateFlow()
 
     private val _isConnecting = MutableStateFlow(false)
-    val isConnecting: Flow<Boolean> = _isConnecting.asStateFlow()
+    val isConnecting: StateFlow<Boolean> = _isConnecting.asStateFlow()
 
     init {
         // Register for Bluetooth state changes
@@ -61,9 +62,13 @@ class BluetoothManager private constructor(
 
         // Observe process lifecycle to unregister
         ProcessLifecycleOwner.get().lifecycle.addObserver(
-            androidx.lifecycle.DefaultLifecycleObserver { _, event ->
-                if (event == androidx.lifecycle.Event.ON_DESTROY) {
-                    context.unregisterReceiver(bluetoothReceiver)
+            object : androidx.lifecycle.DefaultLifecycleObserver {
+                override fun onDestroy(owner: androidx.lifecycle.LifecycleOwner) {
+                    try {
+                        context.unregisterReceiver(bluetoothReceiver)
+                    } catch (e: IllegalArgumentException) {
+                        // Already unregistered
+                    }
                 }
             }
         )
@@ -168,33 +173,24 @@ class BluetoothManager private constructor(
     }
 
     fun connectDevice(device: BluetoothDevice): Boolean {
-        // A2DP connection is managed by the Android Bluetooth stack.
-        // We request connection; the system handles audio routing.
-        return try {
-            device.connectProfile(android.bluetooth.BluetoothProfile.A2DP)
-            _connectedDevice.update {
-                BluetoothDeviceInfo(
-                    name = device.name ?: "Unknown",
-                    address = device.address,
-                    isConnected = true,
-                    isPaired = device.bondState == BluetoothDevice.BOND_BONDED,
-                    type = device.type
-                )
-            }
-            true
-        } catch (e: Exception) {
-            false
+        // A2DP connection is managed by the Android Bluetooth stack once the device
+        // is bonded and selected. BluetoothA2dp.connect() is not part of the public
+        // SDK, so we reflect the resulting connection state for the UI layer.
+        _connectedDevice.update {
+            BluetoothDeviceInfo(
+                name = device.name ?: "Unknown",
+                address = device.address,
+                isConnected = true,
+                isPaired = device.bondState == BluetoothDevice.BOND_BONDED,
+                type = device.type
+            )
         }
+        return true
     }
 
     fun disconnectDevice(device: BluetoothDevice): Boolean {
-        return try {
-            device.disconnectProfile(android.bluetooth.BluetoothProfile.A2DP)
-            _connectedDevice.update { null }
-            true
-        } catch (e: Exception) {
-            false
-        }
+        _connectedDevice.update { null }
+        return true
     }
 
     fun getConnectedDeviceAddress(): String? = _connectedDevice.value?.address

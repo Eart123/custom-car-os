@@ -215,7 +215,7 @@ private fun ActionChip(
         Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             color = Color(0xFFB0B0B0.toInt()),
             maxLines = 1
         )

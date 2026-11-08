@@ -14,12 +14,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.drawBehind
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.dp
-import com.customcaros.designsystem.components.AutoCard
+import com.customcaros.designsystem.components.*
 import com.customcaros.designsystem.theme.AutomotiveTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -49,7 +49,7 @@ fun VehicleVisualization(
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = Arrangement.CenterVertically
     ) {
         // Başlık
         Text(
@@ -61,8 +61,8 @@ fun VehicleVisualization(
         Text(
             text = "34ABC567",
             style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = androidx.compose.ui.text.FontWeight.Medium,
-                fontFamily = androidx.compose.ui.text.FontFamily.Monospace
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
             ),
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(bottom = 16.dp)
@@ -133,7 +133,7 @@ fun VehicleVisualization(
         // Simülasyon uyarısı
         Text(
             text = "⚠ Simülasyon — gerçek OBD/CAN bağlantısı yok",
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -177,7 +177,7 @@ private fun DrawScope.drawRenaultSymbol(
     val carWidth = size.width * 0.82f
     val carHeight = size.height * 0.62f
 
-    with(rotate(rotation[0], centerX, centerY)) {
+    rotate(rotation[0], androidx.compose.ui.geometry.Offset(centerX, centerY)) {
         // Karoseri
         drawRect(
             color = color,

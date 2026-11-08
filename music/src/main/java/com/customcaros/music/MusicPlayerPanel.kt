@@ -10,9 +10,11 @@ import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.customcaros.designsystem.components.*
 import com.customcaros.designsystem.theme.AutomotiveTheme
 
@@ -71,9 +73,9 @@ fun MusicPlayerPanel(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "0:00", style = MaterialTheme.typography.caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(text = "0:00", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = "3:45", style = MaterialTheme.typography.caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(text = "3:45", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
 
         Spacer(modifier = Modifier.height(24.dp))

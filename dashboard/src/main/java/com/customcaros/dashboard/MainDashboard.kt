@@ -107,7 +107,7 @@ fun MainDashboard(
                         Text(
                             text = "12:45",
                             style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = androidx.compose.ui.text.FontWeight.Medium
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium
                             ),
                             color = Color.White
                         )
@@ -137,7 +137,7 @@ fun MainDashboard(
                     }
                     Text(
                         text = "Paz 31 Eki",
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFF8E8E8E.toInt())
                     )
                 }

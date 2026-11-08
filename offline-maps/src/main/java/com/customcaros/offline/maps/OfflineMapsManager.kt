@@ -67,7 +67,7 @@ fun OfflineMapsManager(
                     )
                     Text(
                         text = if (isConnected == NetworkState.Connected) "Harita güncelleme açık" else "Yerel harita kullanılıyor",
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

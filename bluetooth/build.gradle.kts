@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.compose.material3)
 
     implementation(project(":core"))
+    implementation(project(":design-system"))
     implementation(project(":storage"))
 
     // Process lifecycle observer for BT state cleanup

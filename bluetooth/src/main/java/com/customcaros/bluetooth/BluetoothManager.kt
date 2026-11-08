@@ -74,7 +74,8 @@ class BluetoothManager private constructor(
         )
     }
 
-    private val bluetoothReceiver = object : android.content.BroadcastReceiver() {
+    private val bluetoothReceiver: android.content.BroadcastReceiver by lazy {
+        object : android.content.BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
 
@@ -136,6 +137,7 @@ class BluetoothManager private constructor(
                     _isConnecting.update { false }
                 }
             }
+        }
         }
     }
 
@@ -227,12 +229,13 @@ class BluetoothManager private constructor(
     }
 
     companion object {
-        @Volatile private var instance: BluetoothManager? = null
+        @Volatile private var instance: com.customcaros.bluetooth.BluetoothManager? = null
 
         fun init(context: Context, scope: CoroutineScope): BluetoothManager {
             return instance ?: synchronized(this) {
-                instance = BluetoothManager(context.applicationContext, scope)
-                instance!!
+                val created = com.customcaros.bluetooth.BluetoothManager(context.applicationContext, scope)
+                instance = created
+                created
             }
         }
 

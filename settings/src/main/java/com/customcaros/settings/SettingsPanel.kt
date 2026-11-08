@@ -110,7 +110,7 @@ fun SettingsPanel(
                 AutoDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp))
                 Text(
                     text = "No analytics • No telemetry • No advertising • No tracking",
-                    style = MaterialTheme.typography.caption,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                 )
             }

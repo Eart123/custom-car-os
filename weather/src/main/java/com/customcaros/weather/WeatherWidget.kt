@@ -57,7 +57,7 @@ fun WeatherWidget(
                 Text(
                     text = temperature,
                     style = MaterialTheme.typography.displayMedium.copy(
-                        fontWeight = androidx.compose.ui.text.FontWeight.Bold
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
                     ),
                     color = MaterialTheme.colorScheme.onBackground
                 )

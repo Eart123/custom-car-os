@@ -1,12 +1,8 @@
 package com.customcaros.bluetooth
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.customcaros.designsystem.components.AutoCard
-import com.customcaros.designsystem.theme.AutomotiveTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

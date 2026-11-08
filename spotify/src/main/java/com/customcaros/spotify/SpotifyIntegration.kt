@@ -103,7 +103,7 @@ fun SpotifyIntegration(
                 Text(
                     text = "Falling",
                     style = MaterialTheme.typography.headlineSmall.copy(
-                        fontWeight = androidx.compose.ui.text.FontWeight.Bold
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
                     ),
                     color = Color.White
                 )
@@ -281,7 +281,7 @@ private fun LibraryChip(label: String, isSelected: Boolean) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall.copy(
-                fontWeight = if (isSelected) androidx.compose.ui.text.FontWeight.Medium else androidx.compose.ui.text.FontWeight.Normal
+                fontWeight = if (isSelected) androidx.compose.ui.text.font.FontWeight.Medium else androidx.compose.ui.text.font.FontWeight.Normal
             ),
             color = if (isSelected) Color.White else Color(0xFFB0B0B0.toInt()),
             modifier = Modifier.align(Alignment.Center)

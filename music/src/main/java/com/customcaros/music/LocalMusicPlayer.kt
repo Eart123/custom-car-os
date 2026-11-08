@@ -35,6 +35,8 @@ class LocalMusicPlayer private constructor(
 ) {
 
     private val player: ExoPlayer = ExoPlayer.Builder(context).build()
+    /** ExoPlayer Java referansı — MediaSession ve dış erişim için. */
+    val exoPlayer: ExoPlayer get() = player
     private val _currentTrack = MutableStateFlow<MusicTrack?>(null)
     val currentTrack: Flow<MusicTrack?> = _currentTrack.asStateFlow()
 
@@ -220,9 +222,9 @@ class CarMusicSessionService : MediaSessionService() {
         super.onCreate()
     }
 
-    override fun onGetSession(controllerInfo: androidx.media3.session.ControllerInfo): MediaSession? {
+    override fun onGetSession(controllerInfo: androidx.media3.session.MediaSession.ControllerInfo): MediaSession? {
         val player = LocalMusicPlayer.get()
-        val session = MediaSession.Builder(this, player)
+        val session = MediaSession.Builder(this, player.exoPlayer)
             .build()
         return session
     }

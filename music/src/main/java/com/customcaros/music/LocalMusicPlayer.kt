@@ -20,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -53,7 +53,7 @@ class LocalMusicPlayer private constructor(
     init {
         player.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(@Player.State playbackState: Int) {
-                _isPlaying.updateAndGet { playbackState == Player.STATE_READY && player.isPlaying }
+                _isPlaying.update { playbackState == Player.STATE_READY && player.isPlaying }
             }
             override fun onPositionDiscontinuity(
                 reason: Int,
@@ -62,32 +62,32 @@ class LocalMusicPlayer private constructor(
                 newPositionMs: Long,
                 newTotalMs: Long
             ) {
-                _positionMs.updateAndGet { newPositionMs }
-                _durationMs.updateAndGet { newTotalMs }
+                _positionMs.update { newPositionMs }
+                _durationMs.update { newTotalMs }
             }
             override fun onPositionDiscontinuity(oldPosition: Long, newPosition: Long, reason: Int) {
-                _positionMs.updateAndGet { newPosition }
+                _positionMs.update { newPosition }
             }
             override fun onPositionDiscontinuity(oldPositionMs: Long, newPositionMs: Long, reason: Int) {
-                _positionMs.updateAndGet { newPositionMs }
+                _positionMs.update { newPositionMs }
             }
             override fun onPositionDiscontinuity(oldPosition: Long, newPosition: Long) {
-                _positionMs.updateAndGet { newPosition }
+                _positionMs.update { newPosition }
             }
             override fun onPositionDiscontinuity(oldPositionMs: Long, newPositionMs: Long) {
-                _positionMs.updateAndGet { newPositionMs }
+                _positionMs.update { newPositionMs }
             }
             override fun onPositionDiscontinuity(reason: Int) {
                 // no-op
             }
             override fun onPositionDiscontinuity(oldPositionMs: Long, newPositionMs: Long) {
-                _positionMs.updateAndGet { newPositionMs }
+                _positionMs.update { newPositionMs }
             }
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                _isPlaying.updateAndGet { isPlaying }
+                _isPlaying.update { isPlaying }
             }
             override fun onPositionDiscontinuity(oldPosition: Long, newPosition: Long) {
-                _positionMs.updateAndGet { newPosition }
+                _positionMs.update { newPosition }
             }
         })
     }
@@ -105,9 +105,9 @@ class LocalMusicPlayer private constructor(
         val mediaItem = MediaItem.fromUri(uri)
         player.setMediaItem(mediaItem)
         player.prepare()
-        _currentTrack.updateAndGet { track }
-        _durationMs.updateAndGet { track.durationMs }
-        _positionMs.updateAndGet { 0L }
+        _currentTrack.update { track }
+        _durationMs.update { track.durationMs }
+        _positionMs.update { 0L }
     }
 
     fun play() {

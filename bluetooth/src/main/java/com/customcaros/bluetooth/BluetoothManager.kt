@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -76,7 +76,7 @@ class BluetoothManager private constructor(
             when (action) {
                 BluetoothAdapter.ACTION_STATE_CHANGED -> {
                     val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1)
-                    _isEnabled.updateAndGet { state == BluetoothAdapter.STATE_ON }
+                    _isEnabled.update { state == BluetoothAdapter.STATE_ON }
                 }
                 BluetoothDevice.ACTION_ACL_CONNECTED -> {
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
@@ -88,8 +88,8 @@ class BluetoothManager private constructor(
                             isPaired = d.bondState == BluetoothDevice.BOND_BONDED,
                             type = d.type
                         )
-                        _connectedDevice.updateAndGet { info }
-                        _devices.updateAndGet { list ->
+                        _connectedDevice.update { info }
+                        _devices.update { list ->
                             list.map { if (it.address == d.address) info else it } + if (list.any { it.address == d.address }) emptyList() else listOf(info)
                         }
                     }
@@ -97,8 +97,8 @@ class BluetoothManager private constructor(
                 BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                     device?.let { d ->
-                        _connectedDevice.updateAndGet { null }
-                        _devices.updateAndGet { list ->
+                        _connectedDevice.update { null }
+                        _devices.update { list ->
                             list.map { if (it.address == d.address) it.copy(isConnected = false) else it }
                         }
                     }
@@ -107,7 +107,7 @@ class BluetoothManager private constructor(
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                     device?.let { d ->
                         val bonded = d.bondState == BluetoothDevice.BOND_BONDED
-                        _devices.updateAndGet { list ->
+                        _devices.update { list ->
                             list.map { if (it.address == d.address) it.copy(isPaired = bonded) else it }
                         }
                     }
@@ -115,7 +115,7 @@ class BluetoothManager private constructor(
                 BluetoothDevice.ACTION_FOUND -> {
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                     device?.let { d ->
-                        _devices.updateAndGet { list ->
+                        _devices.update { list ->
                             if (list.any { it.address == d.address }) list
                             else list + BluetoothDeviceInfo(
                                 name = d.name ?: "Unknown",
@@ -128,7 +128,7 @@ class BluetoothManager private constructor(
                     }
                 }
                 BluetoothAdapter.ACTION_DISCOVERY_FINISHED -> {
-                    _isConnecting.updateAndGet { false }
+                    _isConnecting.update { false }
                 }
             }
         }
@@ -148,13 +148,13 @@ class BluetoothManager private constructor(
         if (bluetoothAdapter?.isDiscovering == true) {
             bluetoothAdapter?.cancelDiscovery()
         }
-        _isConnecting.updateAndGet { true }
+        _isConnecting.update { true }
         bluetoothAdapter?.startDiscovery()
     }
 
     fun stopDiscovery() {
         bluetoothAdapter?.cancelDiscovery()
-        _isConnecting.updateAndGet { false }
+        _isConnecting.update { false }
     }
 
     fun pairDevice(device: BluetoothDevice): Boolean {
@@ -172,7 +172,7 @@ class BluetoothManager private constructor(
         // We request connection; the system handles audio routing.
         return try {
             device.connectProfile(android.bluetooth.BluetoothProfile.A2DP)
-            _connectedDevice.updateAndGet {
+            _connectedDevice.update {
                 BluetoothDeviceInfo(
                     name = device.name ?: "Unknown",
                     address = device.address,
@@ -190,7 +190,7 @@ class BluetoothManager private constructor(
     fun disconnectDevice(device: BluetoothDevice): Boolean {
         return try {
             device.disconnectProfile(android.bluetooth.BluetoothProfile.A2DP)
-            _connectedDevice.updateAndGet { null }
+            _connectedDevice.update { null }
             true
         } catch (e: Exception) {
             false
@@ -201,7 +201,7 @@ class BluetoothManager private constructor(
 
     fun refreshPairedDevices() {
         val paired = bluetoothAdapter?.bondedDevices?.toList() ?: emptyList()
-        _devices.updateAndGet { paired.map { d ->
+        _devices.update { paired.map { d ->
             BluetoothDeviceInfo(
                 name = d.name ?: "Unknown",
                 address = d.address,
@@ -210,7 +210,7 @@ class BluetoothManager private constructor(
                 type = d.type
             )
         } }
-        _isConnecting.updateAndGet { false }
+        _isConnecting.update { false }
     }
 
     fun getConnectionStatus(): ConnectionStatus {

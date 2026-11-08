@@ -149,8 +149,7 @@ fun MainDashboard(
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color.Transparent,
                         contentColor = Color(0xFFB0B0B0.toInt())
-                    ),
-                    shape = CircleShape
+                    )
                 ) {
                     Icon(
                         imageVector = Icons.Default.MoreVert,

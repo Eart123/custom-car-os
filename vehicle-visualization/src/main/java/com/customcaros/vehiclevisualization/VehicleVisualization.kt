@@ -49,7 +49,7 @@ fun VehicleVisualization(
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.CenterVertically
+        verticalArrangement = Arrangement.Center
     ) {
         // Başlık
         Text(

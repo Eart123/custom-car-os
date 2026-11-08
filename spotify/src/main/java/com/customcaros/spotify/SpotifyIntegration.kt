@@ -63,7 +63,6 @@ fun SpotifyIntegration(
                     shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp)
                 )
                 .padding(20.dp)
-                .align(Alignment.Top)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -72,7 +71,7 @@ fun SpotifyIntegration(
             ) {
                 // Spotify logo (top right corner)
                 Box(
-                    modifier = Modifier.align(Alignment.TopEnd)
+                    modifier = Modifier.align(Alignment.End)
                 ) {
                     Icon(
                         imageVector = Icons.Default.MusicNote,
@@ -88,7 +87,7 @@ fun SpotifyIntegration(
                         .size(160.dp)
                         .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
                         .background(Color(0xFF2A2A2A.toInt()))
-                        .align(Alignment.Center)
+                        .align(Alignment.CenterHorizontally)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Album,
@@ -130,8 +129,7 @@ fun SpotifyIntegration(
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Transparent,
                     contentColor = Color(0xFFB0B0B0.toInt())
-                ),
-                shape = CircleShape
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Favorite,
@@ -147,8 +145,7 @@ fun SpotifyIntegration(
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color(0xFF2A2A2A.toInt()),
                     contentColor = Color.White
-                ),
-                shape = CircleShape
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.SkipPrevious,
@@ -164,8 +161,7 @@ fun SpotifyIntegration(
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color(0xFF00D4FF.toInt()),
                     contentColor = Color(0xFF000000.toInt())
-                ),
-                shape = CircleShape
+                )
             ) {
                 Icon(
                     imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
@@ -181,8 +177,7 @@ fun SpotifyIntegration(
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color(0xFF2A2A2A.toInt()),
                     contentColor = Color.White
-                ),
-                shape = CircleShape
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.SkipNext,
@@ -198,8 +193,7 @@ fun SpotifyIntegration(
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Transparent,
                     contentColor = Color(0xFFB0B0B0.toInt())
-                ),
-                shape = CircleShape
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.List,

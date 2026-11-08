@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.customcaros.designsystem.components.AutoCard
+import com.customcaros.designsystem.components.*
 import com.customcaros.designsystem.theme.AutomotiveTheme
 
 /**
@@ -72,8 +72,7 @@ fun NavigationMap(
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color(0xFF2A2A2A.toInt()),
                         contentColor = Color.White
-                    ),
-                    shape = CircleShape
+                    )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Navigation,
@@ -88,7 +87,7 @@ fun NavigationMap(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(16.dp),
-                horizontalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 IconButton(
@@ -97,8 +96,7 @@ fun NavigationMap(
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color(0xFF2A2A2A.toInt()),
                         contentColor = Color.White
-                    ),
-                    shape = CircleShape
+                    )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -113,8 +111,7 @@ fun NavigationMap(
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = Color(0xFF2A2A2A.toInt()),
                         contentColor = Color.White
-                    ),
-                    shape = CircleShape
+                    )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Remove,

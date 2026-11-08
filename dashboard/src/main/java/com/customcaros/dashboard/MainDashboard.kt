@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.customcaros.designsystem.theme.AutomotiveTheme
 import com.customcaros.designsystem.components.*
 import com.customcaros.navigation.NavigationMap
+import com.customcaros.spotify.SpotifyIntegration
 import com.customcaros.bluetooth.BluetoothManager
 import com.customcaros.core.network.ConnectionStateHolder
 import kotlinx.coroutines.CoroutineScope

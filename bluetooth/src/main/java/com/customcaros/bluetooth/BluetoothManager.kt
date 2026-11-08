@@ -46,6 +46,8 @@ class BluetoothManager private constructor(
     private val _isConnecting = MutableStateFlow(false)
     val isConnecting: StateFlow<Boolean> = _isConnecting.asStateFlow()
 
+    private val bluetoothReceiver: android.content.BroadcastReceiver = createBluetoothReceiver()
+
     init {
         // Register for Bluetooth state changes
         val filter = IntentFilter()
@@ -74,7 +76,7 @@ class BluetoothManager private constructor(
         )
     }
 
-    private val bluetoothReceiver: android.content.BroadcastReceiver by lazy {
+    private fun createBluetoothReceiver(): android.content.BroadcastReceiver =
         object : android.content.BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action ?: return
@@ -137,7 +139,6 @@ class BluetoothManager private constructor(
                     _isConnecting.update { false }
                 }
             }
-        }
         }
     }
 
@@ -231,7 +232,7 @@ class BluetoothManager private constructor(
     companion object {
         @Volatile private var instance: com.customcaros.bluetooth.BluetoothManager? = null
 
-        fun init(context: Context, scope: CoroutineScope): BluetoothManager {
+        fun init(context: Context, scope: CoroutineScope): com.customcaros.bluetooth.BluetoothManager {
             return instance ?: synchronized(this) {
                 val created = com.customcaros.bluetooth.BluetoothManager(context.applicationContext, scope)
                 instance = created
@@ -239,7 +240,7 @@ class BluetoothManager private constructor(
             }
         }
 
-        fun get(): BluetoothManager {
+        fun get(): com.customcaros.bluetooth.BluetoothManager {
             if (instance == null) {
                 throw IllegalStateException("BluetoothManager not initialized. Call init(context, scope) first.")
             }
